@@ -13,15 +13,17 @@
   },
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "alarms", "notifications", "storage","background","idle",  "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
   ],
-  "content_scripts": [
-    {
-      "js": ["src/content.js"],
-      "matches": [
-        "https://developer.chrome.com/docs/extensions/*",
-        "https://developer.chrome.com/docs/webstore/*"
-      ]
-    }
-  ]
+   "declarative_net_request": {
+     "rule_resources": [
+       {
+         "id": "ruleset_1",
+         "enabled": true,
+         "path": "rules.json"
+       }
+     ]
+   }
 }

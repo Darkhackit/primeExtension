@@ -1,5 +1,9 @@
+//import notifications = chrome.contentSettings.notifications;
+
 let notification_id = false
 let response : { [p: string]: any } = {}
+
+
 const getUpdatedNotification = (notification:string) => {
     console.log({notification:'updated'})
     setTimeout(() => {
@@ -10,7 +14,6 @@ const getUpdatedNotification = (notification:string) => {
                 updateNotification()
             }
         })
-
     },30000)
 };
 const cancelNotification = () => {
@@ -64,7 +67,8 @@ chrome.runtime.onStartup.addListener(async () => {
     chrome.alarms.getAll(alarms => {
         console.log(alarms)
         if(!alarms.length) {
-            chrome.alarms.create({delayInMinutes: 60})
+                chrome.alarms.create({delayInMinutes: 60})
+                chrome.storage.sync.set({type:'add'})
          }
     })
 })
@@ -103,8 +107,7 @@ chrome.notifications.onButtonClicked.addListener(async () => {
     cancelNotification()
     if (response.type === 'add') {
         await chrome.storage.sync.set({type:'update'})
-        await chrome.alarms.create({ delayInMinutes: 10 })
-
+        await chrome.alarms.create({ delayInMinutes: 5 })
     }
 
     if (response.type === 'update') {
@@ -116,19 +119,27 @@ chrome.idle.onStateChanged.addListener(async (listener) => {
     console.log(listener)
     if(listener === 'locked') {
      await chrome.alarms.clearAll()
-        chrome.notifications.getAll(permission => {
+        chrome.notifications.getAll( permission => {
             const notifications = Object.keys(permission)
             notifications.map(notification => {
                 chrome.notifications.clear(notification)
             })
         })
     }
+
     if(listener === 'active') {
-        chrome.alarms.getAll(alarms => {
-            console.log(alarms)
-            if(!alarms.length) {
-                chrome.alarms.create({ delayInMinutes: 60 })
-            }
+        chrome.notifications.getAll(notification => {
+            console.log(notification)
+            let notifications = Object.keys(notification)
+          if (!notifications.length) {
+              chrome.alarms.getAll(async alarms => {
+                  console.log(alarms)
+                  if(!alarms.length) {
+                      await chrome.alarms.create({ delayInMinutes: 2 })
+                      await chrome.storage.sync.set({type:'add'})
+                  }
+              })
+          }
         })
 
     }
@@ -145,7 +156,58 @@ chrome.idle.onStateChanged.addListener(async (listener) => {
     // console.log(response)
 })
 
+
+
+
 chrome.storage.onChanged.addListener(async (changes) => {
     console.log(changes)
 })
+
+const INTERNAL_STAYALIVE_PORT = "25"
+// @ts-ignore
+let alivePort = null
+
+// @ts-ignore
+
+
+
+async function StayAlive() {
+    let lastCall = Date.now();
+    setInterval( () => {
+
+        const now = Date.now();
+        const age = now - lastCall;
+
+        console.log(`(DEBUG StayAlive) ----------------------- time elapsed: ${age}`)
+        // @ts-ignore
+        if (alivePort == null) {
+            alivePort = chrome.runtime.connect({name:INTERNAL_STAYALIVE_PORT})
+
+            alivePort.onDisconnect.addListener( () => {
+                if (chrome.runtime.lastError){
+                    console.log(`(DEBUG StayAlive) Disconnected due to an error: ${chrome.runtime.lastError.message}`);
+                } else {
+                    console.log(`(DEBUG StayAlive): port disconnected`);
+                }
+
+                alivePort = null;
+            });
+        }
+
+        // @ts-ignore
+        if (alivePort) {
+
+            alivePort.postMessage({content: "ping"});
+
+            if (chrome.runtime.lastError) {
+                console.log(`(DEBUG StayAlive): postMessage error: ${chrome.runtime.lastError.message}`)
+            } else {
+                console.log(`(DEBUG StayAlive): "ping" sent through ${alivePort.name} port`)
+            }
+
+        }
+        //lastCall = Date.now();
+
+    }, 25000);
+}
 

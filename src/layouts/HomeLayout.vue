@@ -13,23 +13,6 @@ import {
 } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { Carousel, Slide,Navigation } from 'vue3-carousel'
-import 'vue3-carousel/dist/carousel.css'
-import { ref} from "vue";
-
-const myTime = ref(new Date().toLocaleTimeString())
-const myDate = ref(new Date().toDateString())
-
-const setTime = () => {
-  myTime.value = new Date().toLocaleTimeString()
-  myDate.value = new Date().toDateString()
-}
-
-
-setInterval(() => {
-  setTime()
-},1000)
-
 const activityItems = [
   {
     user: {
@@ -130,13 +113,12 @@ const user = {
   imageUrl:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-
 const navigation = [
   { name: 'Home', href: '#', current: true },
-  { name: 'Notice Board', href: 'http://localhost:5173/notice_board', current: false },
-  { name: 'Knowledge Base', href: 'http://localhost:5173/knowledge_base', current: false },
-  { name: 'Company Directory', href: '', current: false },
-  { name: 'Employees Directory', href: 'http://localhost:5173/employees_directory', current: false },
+  { name: 'Profile', href: '#', current: false },
+  { name: 'Resources', href: '#', current: false },
+  { name: 'Company Directory', href: '#', current: false },
+  { name: 'Openings', href: '#', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -317,7 +299,7 @@ const userNavigation = [
                     </button>
                   </div>
                   <div class="mt-3 space-y-1 px-2">
-                    <a v-for="item in userNavigation" :key="item.name" :href="item.href" target="_blank" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">{{ item.name }}</a>
+                    <a v-for="item in userNavigation" :key="item.name" :href="item.href" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">{{ item.name }}</a>
                   </div>
                 </div>
               </div>
@@ -339,142 +321,24 @@ const userNavigation = [
                 <div class="p-6 min-h-screen">
                   <div>
                     <nav class="flex space-x-4">
-                      <a v-for="item in navigation" :key="item.name" :href="item.href" target="_blank" :class="[item.current ? 'text-gray-900' : 'text-gray-900', 'rounded-md bg-white bg-opacity-0 px-3 py-2 text-base font-medium hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+                      <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'text-gray-900' : 'text-gray-900', 'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
                     </nav>
                   </div>
                   <div>
                     <div class="grid grid-cols-1 space-y-2 lg:space-y-0 items-start lg:grid-cols-3 lg:gap-8">
-                      <div class="grid grid-cols-1 lg:col-span-2 h-56  rounded">
-                        <Carousel :autoplay="2000" :wrap-around="true">
-                          <Slide v-for="slide in 10" :key="slide">
-                            <div class="max-h-full  rounded-xl relative">
-                              <img alt="Banner 1" src="./assets/bg.jpeg" class="w-full h-full object-cover object-center rounded-3xl">
-                              <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                                <div class="p-10 space-y-2">
-                                  <div class="flex space-x-2">
-                                    <h1 class="text-white text-xl font-bold">Title</h1>
-                                  </div>
-                                  <div class="flex space-x-2">
-                                    <p class="text-white ">The world revolves around us. We are chosen to be more... {{slide}}</p>
-                                  </div>
-                                  <div class="flex space-x-2">
-                                    <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                                    <p class="text-xs text-gray-400">Author</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Slide>
-                          <template #addons>
-                            <Navigation />
-                          </template>
-                        </Carousel>
-                      </div>
-                      <div class="grid grid-cols-1 bg-red-50 h-56 rounded ">
-                        <div class="p-8 space-y-2">
-                          <div class="items-center justify-center">
-                            <h1 class="text-4xl font-bold">{{myDate}}</h1>
-                            <p class="text-lg font-bold">{{myTime}}</p>
-                          </div>
-                          <p class="text-2xl font-bold">No Birthday Today</p>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 mt-4 lg:gap-8">
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <div class="grid grid-cols-1 lg:col-span-2 bg-red-300 h-56 rounded"></div>
+                      <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
                     </div>
                   </div>
                   <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 mt-4 lg:gap-8">
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
+                    <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
+                    <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
+                  </div>
+                  <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 mt-4 lg:gap-8">
+                    <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
+                    <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
+                    <div class="grid grid-cols-1 bg-blue-300 h-56 rounded "></div>
                   </div>
 
                 </div>

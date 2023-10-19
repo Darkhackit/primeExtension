@@ -143,190 +143,79 @@ const userNavigation = [
   { name: 'Settings', href: '#'},
   { name: 'Sign out', href: '#' },
 ]
+const quickLinks = [
+    {
+      name:'SibaGen',
+      href:'https://live.sibagenprimeinsuranceghana.com/',
+      favicon:'https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png'
+    },
+    {
+      name:'Mapfre',
+      href:'https://warranty-neu.mia-assistance.com/',
+      favicon:'https://agents.mapfreinsurance.com/favicon.ico'
+    },
+    {
+      name:'NICMID',
+      href:'https://live.nicmid.com/',
+      favicon:'https://live.nicmid.com/img/logo-single.png'
+    },
+    {
+      name:'Ipay',
+      href:'https://dashboard.ipaygh.com/',
+      favicon:'https://dashboard.ipaygh.com/content/resources/img/favicon.ico'
+    },
+    {
+      name:'FROG',
+      href:'https://frog.wigal.com.gh/login',
+      favicon:'https://frog.wigal.com.gh/images/favicon.ico'
+    },
+    {
+      name:'Workflow',
+      href:'http://10.0.0.22/seeddms-6.0.12/out/out.Login.php?referuri=%2Fseeddms-6.0.12%2Fout%2Fout.UsrMgr.php%3Fuserid%3D76',
+      favicon:'http://10.0.0.22/seeddms-6.0.12/styles/bootstrap/favicon.ico'
+    },
+    {
+      name:'Whatsapp Web',
+      href:'https://web.whatsapp.com/',
+      favicon:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/WhatsApp_icon.png/598px-WhatsApp_icon.png'
+    }
+]
 </script>
 <template>
   <div class="min-h-full ">
-    <Popover as="header" class="bg-[url('./assets/bg.jpeg')] bg-cover pb-24 " v-slot="{ open }">
-      <div class="mx-auto px-16 w-full pb-24 backdrop-blur ">
-        <div class="relative flex items-center justify-center py-5  lg:justify-between">
-          <!-- Logo -->
-          <div class="absolute left-0 flex-shrink-0 lg:static">
-            <a href="#">
-              <span class="sr-only">Your Company</span>
-              <img class="h-8 w-auto" src="https://www.primeinsuranceghana.com/img/logo.png" alt="Your Company" />
-            </a>
+    <Popover as="header" class="bg-red-700 bg-cover pb-24 " v-slot="{ open }">
+      <div class="p-10">
+        <nav class="">
+          <div class="text-white flex justify-between items-center">
+            <a href="/"><img src="./assets/logo_w.svg"/></a>
+            <ul class="flex space-x-5 items-center">
+              <li><p>Head Office</p></li>
+              <li><span class="text-xs flex justify-center items-center bg-white rounded-full text-red-700 h-[30px] w-[30px] font-bold">MS</span></li>
+            </ul>
           </div>
-
-          <!-- Right section on desktop -->
-          <div class="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
-            <button type="button" class="flex-shrink-0 rounded-full p-1 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-              <span class="sr-only">View notifications</span>
-              <BellIcon class="h-6 w-6" aria-hidden="true" />
-            </button>
-
-            <!-- Profile dropdown -->
-            <Menu as="div" class="relative ml-4 flex-shrink-0">
-              <div>
-                <MenuButton class="flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
-                  <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" :src="user.imageUrl" alt="" />
-                </MenuButton>
-              </div>
-              <transition leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                <MenuItems class="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                    <a :href="item.href" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item.name }}</a>
-                  </MenuItem>
-                </MenuItems>
-              </transition>
-            </Menu>
-          </div>
-
-          <!-- Search -->
-          <div class="min-w-0 flex-1 px-12 lg:hidden">
-            <div class="mx-auto w-full max-w-xs">
-              <label for="desktop-search" class="sr-only">Search</label>
-              <div class="relative text-white focus-within:text-gray-600">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
-                </div>
-                <input id="desktop-search" class="block w-full rounded-md border-0 bg-white/20 py-1.5 pl-10 pr-3 text-white placeholder:text-white focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 sm:text-sm sm:leading-6" placeholder="Search" type="search" name="search" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Menu button -->
-          <div class="absolute right-0 flex-shrink-0 lg:hidden">
-            <!-- Mobile menu button -->
-            <PopoverButton class="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-              <span class="sr-only">Open main menu</span>
-              <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-              <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
-            </PopoverButton>
-          </div>
-        </div>
-        <div class="hidden border-t border-white border-opacity-20 py-5 lg:block">
-          <!-- Links to -->
-          <div class="flex  items-center justify-center space-x-20 ">
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-red-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-red-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-            <div class="text-center space-y-2">
-              <button type="button" class="rounded-xl bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                <img src="https://live.sibagenprimeinsuranceghana.com/Content/Images/ui/v2/favicon-clear_1favicon-clear.png" />
-              </button>
-              <p class="text-white font-semibold">SibaGen</p>
-            </div>
-          </div>
-          <!-- Links to -->
-          <div class="grid grid-cols-3 items-center gap-8">
-            <div class="col-span-2">
-              <nav class="flex space-x-4">
-                <!--                <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'text-white' : 'text-indigo-100', 'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>-->
-              </nav>
+        </nav>
+        <div class="py-14 flex justify-between">
+          <div class="space-y-5">
+            <div class="text-white">         
+              <h1>Good Morning, Scott Garcia</h1>
             </div>
             <div>
-              <div class="mx-auto w-full max-w-md">
-                <!--                <label for="mobile-search" class="sr-only">Search</label>-->
-                <!--                <div class="relative text-white focus-within:text-gray-600">-->
-                <!--                  <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">-->
-                <!--                    <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />-->
-                <!--                  </div>-->
-                <!--                  <input id="mobile-search" class="block w-full rounded-md border-0 bg-white/20 py-1.5 pl-10 pr-3 text-white placeholder:text-white focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 sm:text-sm sm:leading-6" placeholder="Search" type="search" name="search" />-->
-                <!--                </div>-->
-              </div>
+              <h1 class="text-5xl text-white">Welcome to Prime <br> <span class="font-bold">Intranet.</span></h1>
+            </div>
+          </div>
+          <div class="w-1/2 space-y-5">
+            <p class="text-sm text-white">Quick Links</p>
+            <div class="grid grid-cols-4 gap-5">
+                <button v-for="(item,index) in quickLinks" :key="index" class="border rounded-xl hover:bg-red-500 border-red-500 uppercase p-4 flex items-center  space-x-2 text-left">
+                        <span class="h-[30px] bg-red-500 p-1 rounded-full"><img :src="item.favicon" class="h-full"/></span>
+                        <p class="text-white font-bold">{{ item.name }}</p>
+                </button>
             </div>
           </div>
         </div>
       </div>
-
-      <TransitionRoot as="template" :show="open">
-        <div class="lg:hidden">
-          <TransitionChild as="template" enter="duration-150 ease-out" enter-from="opacity-0" enter-to="opacity-100" leave="duration-150 ease-in" leave-from="opacity-100" leave-to="opacity-0">
-            <PopoverOverlay class="fixed inset-0 z-20 bg-black bg-opacity-25" />
-          </TransitionChild>
-
-          <TransitionChild as="template" enter="duration-150 ease-out" enter-from="opacity-0 scale-95" enter-to="opacity-100 scale-100" leave="duration-150 ease-in" leave-from="opacity-100 scale-100" leave-to="opacity-0 scale-95">
-            <PopoverPanel focus class="absolute inset-x-0 top-0 z-30 mx-auto w-full max-w-3xl origin-top transform p-2 transition">
-              <div class="divide-y divide-gray-200 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                <div class="pb-2 pt-3">
-                  <div class="flex items-center justify-between px-4">
-                    <div>
-                      <img class="h-8 w-auto" src="https://www.primeinsuranceghana.com/img/logo.png" alt="Your Company" />
-                    </div>
-                    <div class="-mr-2">
-                      <PopoverButton class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                        <span class="sr-only">Close menu</span>
-                        <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                      </PopoverButton>
-                    </div>
-                  </div>
-                  <div class="mt-3 space-y-1 px-2">
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Home</a>
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Profile</a>
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Resources</a>
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Company Directory</a>
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Openings</a>
-                  </div>
-                </div>
-                <div class="pb-2 pt-4">
-                  <div class="flex items-center px-5">
-                    <div class="flex-shrink-0">
-                      <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
-                    </div>
-                    <div class="ml-3 min-w-0 flex-1">
-                      <div class="truncate text-base font-medium text-gray-800">{{ user.name }}</div>
-                      <div class="truncate text-sm font-medium text-gray-500">{{ user.email }}</div>
-                    </div>
-                    <button type="button" class="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                      <span class="sr-only">View notifications</span>
-                      <BellIcon class="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
-                  <div class="mt-3 space-y-1 px-2">
-                    <a v-for="item in userNavigation" :key="item.name" :href="item.href" target="_blank" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">{{ item.name }}</a>
-                  </div>
-                </div>
-              </div>
-            </PopoverPanel>
-          </TransitionChild>
-        </div>
-      </TransitionRoot>
     </Popover>
-    <main class="-mt-48 pb-8">
+    <main class="-mt-20 pb-8">
       <div class="mx-auto  px-4 sm:px-6  lg:px-8">
         <h1 class="sr-only">Page title</h1>
         <!-- Main 3 column grid -->
@@ -335,19 +224,19 @@ const userNavigation = [
           <div class="grid grid-cols-1 gap-2 lg:col-span-2 z-10">
             <section aria-labelledby="section-1-title">
               <h2 class="sr-only" id="section-1-title">Section title</h2>
-              <div class="overflow-hidden rounded-lg bg-white   shadow">
+              <div class="overflow-hidden rounded-lg bg-white">
                 <div class="p-6 min-h-screen">
                   <div>
-                    <nav class="flex space-x-4">
-                      <a v-for="item in navigation" :key="item.name" :href="item.href" target="_blank" :class="[item.current ? 'text-gray-900' : 'text-gray-900', 'rounded-md bg-white bg-opacity-0 px-3 py-2 text-base font-medium hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+                    <nav class="flex space-x-4 pb-5">
+                      <a v-for="item in navigation" :key="item.name" :href="item.href" target="_blank" :class="[item.current ? 'text-gray-900' : 'text-gray-900', 'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
                     </nav>
                   </div>
                   <div>
-                    <div class="grid grid-cols-1 space-y-2 lg:space-y-0 items-start lg:grid-cols-3 lg:gap-8">
-                      <div class="grid grid-cols-1 lg:col-span-2 h-56  rounded">
-                        <Carousel :autoplay="2000" :wrap-around="true">
+                    <div class="flex space-x-10">
+                      <div class="w-2/3">
+                        <Carousel :autoplay="4000" :wrap-around="true">
                           <Slide v-for="slide in 10" :key="slide">
-                            <div class="max-h-full  rounded-xl relative">
+                            <div class="max-h-full rounded-xl relative w-[100%] h-[400px]">
                               <img alt="Banner 1" src="./assets/bg.jpeg" class="w-full h-full object-cover object-center rounded-3xl">
                               <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
                                 <div class="p-10 space-y-2">
@@ -366,114 +255,102 @@ const userNavigation = [
                             </div>
                           </Slide>
                           <template #addons>
-                            <Navigation />
+                            <Navigation class="text-white hover:text-white"/>
                           </template>
                         </Carousel>
                       </div>
-                      <div class="grid grid-cols-1 bg-red-50 h-56 rounded ">
-                        <div class="p-8 space-y-2">
-                          <div class="items-center justify-center">
+                      <div class="w-1/3 flex flex-col justify-between border p-10 rounded-xl bg-red-700 text-white">
+                        <div class="">
+                          <div class="items-center justify-center space-y-2">
                             <h1 class="text-4xl font-bold">{{myDate}}</h1>
-                            <p class="text-lg font-bold">{{myTime}}</p>
+                            <p class="text-4xl">{{myTime}}</p>
                           </div>
-                          <p class="text-2xl font-bold">No Birthday Today</p>
+                        </div>
+                        <div class="space-y-5">
+                          <div class="flex space-x-2">
+                            <span class="h-[100px] w-[100px] rounded-full block border">
+                              <span class="block bg-white h-full w-full rounded-full">
+                                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" class="w-full h-full object-cover rounded-full">
+                              </span>
+                            </span>
+                            <span class="h-[100px] w-[100px] rounded-full block border">
+                              <span class="block bg-white h-full w-full rounded-full">
+                                <img src="https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" class="w-full h-full object-cover rounded-full">
+                              </span>
+                            </span>
+                            <span class="h-[100px] w-[100px] rounded-full block border">
+                              <span class="block bg-white h-full w-full rounded-full">
+                                <img src="https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" class="w-full h-full object-cover rounded-full">
+                              </span>
+                            </span>
+                          </div>
+                          <div class="space-y-1">
+                            <p class="text-base font-bold">Birthday Celebrants</p>
+                            <button class="text-xs border-b border-b-red-500 border-bottom pb-1">View Calendar</button>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                   </div>
-                  <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 mt-4 lg:gap-8">
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                  <div class="py-10">
+                    <div>
+                      <h2 class="font-medium">Blogs</h2>
                     </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
+                    <div class="flex">
+                      <ul class="w-[60%] divide divide-y divide-gray-150">
+                          <li v-for="blog in 5" :key="blog" class="space-y-3 py-10">
+                            <div class=" space-x-3 text-sm flex items-center">
+                              <span class="block h-[20px] w-[20px] rounded-full">
+                                <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">
+                              </span>
+                              <span>Scott Garcia ✨ </span>
+                              <span class="text-gray-600">August 19</span>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
+                            <div class="flex items-center">
+                              <div class="space-y-2">
+                                <h1 class="font-bold text-xl ">10 Seconds That Ended My 20 Year Marriage</h1>
+                                <p class="w-[90%] text-sm">
+                                  It’s August in Northern Virginia, hot and humid. I still haven’t showered from my morning trail run. I’m wearing my stay-at-home mom uniform — over-sized Marine Corps sweats, tshirt, Crocs flip flops,
+                                </p>
+                              </div>
+                              <div class=" w-1/3">
+                                <div class="h-[150px] w-[150px]">
+                                  <img src="https://images.pexels.com/photos/6382594/pexels-photo-6382594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="banner" class="object-cover w-full h-full rounded-xl grayscale"/>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 mt-4 lg:gap-8">
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
+                            <div>
+                              <div class="text-xs flex items-center space-x-3">
+                                <span class="bg-slate-100 py-1 px-2 block rounded-xl">HR/Admin</span>
+                                <span>4 min read</span>
+                              </div>
+                              <div>
+  
+                              </div>
                             </div>
-                          </div>
+                          </li>
+                        </ul>
+                        <div class="px-20 w-[40%]">
+                            <ul>
+                              <li v-for="blog in 3" :key="blog" class="space-y-2 py-5">
+                              <div class=" space-x-3 text-xs flex items-center">
+                                <span class="block h-[20px] w-[20px] rounded-full">
+                                  <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">
+                                </span>
+                                <span class="text-gray-600">August 19</span>
+                              </div>
+                              <div class="flex items-center">
+                                <div class="space-y-2">
+                                  <h1 class="font-bold ">10 Seconds That Ended My 20 Year Marriage</h1>
+
+                                </div>
+
+                              </div>
+
+                            </li>
+                            </ul>
                         </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-1  h-56 rounded ">
-                      <div class="max-h-full  rounded-xl relative">
-                        <img alt="Banner 1" src="https://images.pexels.com/photos/17644158/pexels-photo-17644158/free-photo-of-apartment-complex.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="w-full h-full object-cover object-center rounded-3xl">
-                        <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
-                          <div class="p-10 space-y-2">
-                            <h1 class="text-white text-xl font-bold">Title</h1>
-                            <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
-                            <div class="flex space-x-2">
-                              <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
-                              <p class="text-xs text-gray-400">Author</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
 
@@ -485,55 +362,50 @@ const userNavigation = [
           <!-- Right column -->
           <div class="grid grid-cols-1 gap-4 z-10">
             <section aria-labelledby="section-2-title">
-              <h2 class="sr-only" id="section-2-title">Section title</h2>
-              <div class="overflow-hidden rounded-lg bg-white shadow">
+              <div class="overflow-hidden rounded-lg bg-white ">
                 <div class="p-6 min-h-screen">
-                  <div class="flex justify-between">
-                    <h1 class="text-lg font-semibold">Notices</h1>
-                    <p>view all</p>
+                  <div class="flex justify-between space-y-0">
+                    <h1 class="font-semibold text-sm">Notices</h1>
+                    <a href="/" class="text-sm">View all</a>
                   </div>
-                  <hr>
-                  <div class="mb-4">
-                    <ul role="list" class="divide-y divide-gray-100">
-                      <li v-for="comment in comments" :key="comment.id" class="flex gap-x-4 py-5">
-                        <div class="flex-auto">
-                          <div class="flex items-baseline justify-between gap-x-4">
-                            <p class="text-sm font-semibold leading-6 text-gray-900">{{ comment.name }}</p>
-                            <p class="flex-none text-xs text-gray-600">
-                              <time :datetime="comment.dateTime">{{ comment.date }}</time>
-                            </p>
+                  <div class="mt-5">
+                    <ul role="list" class="space-y-5">
+                      <li v-for="comment in comments" :key="comment.id" class="p-5 rounded-xl border border-gray-100">
+                        <div class="w-full">
+                          <div class="flex justify-between items-center">
+                            <div class="flex justify-between items-center">
+                              <div class="flex space-x-2 items-center">
+                              <span class="block h-[20px] w-[20px] rounded-full">
+                                    <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">
+                                </span>
+                                <p class="text-sm font-semibold leading-6 text-gray-900">{{ comment.name }}</p>
+                              </div>
+                            </div>
+                            <div>
+                              <p class="text-xs text-gray-600">
+                                <time :datetime="comment.dateTime">{{ comment.date }}</time>
+                              </p>
+                            </div>
                           </div>
-                          <p class="mt-1 line-clamp-2 text-sm leading-6 text-gray-600">{{ comment.content }}</p>
+                          <p class="mt-2 line-clamp-2 text-sm leading-6 text-gray-600">{{ comment.content }}</p>
                         </div>
                       </li>
+                      <li><button class="block w-full text-sm text-gray-500"> Load More</button></li>
                     </ul>
                   </div>
-                  <div>
+
+                  <div class="mt-10 space-y-5">
                     <div class="flex justify-between">
-                      <h1 class="text-lg font-semibold">Employees Birthday</h1>
+                      <h1 class="font-semibold text-sm">Employees On Leave</h1>
                     </div>
-                    <hr>
                     <div>
-                      <ul role="list" class="divide-y divide-gray-100">
-                        <li v-for="item in activityItems" :key="item.commit" class="py-4">
+                      <ul role="list" class="grid grid-cols-3 gap-5">
+                        <li v-for="item in activityItems" :key="item.commit" class="px-4 py-4 border rounded-xl space-y-4 hover:bg-red-50 cursor-pointer">
+                          <span class="block h-[50px] w-[50px] rounded-full">
+                                    <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">
+                          </span>
                           <div class="flex items-center gap-x-3">
-                            <h3 class="flex-auto truncate text-sm font-semibold leading-6 text-gray-900">{{ item.user.name }}</h3>
-                            <time :datetime="item.dateTime" class="flex-none text-xs text-gray-500">{{ item.date }}</time>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="flex justify-between">
-                      <h1 class="text-lg font-semibold">Employees On Leave</h1>
-                    </div>
-                    <hr>
-                    <div>
-                      <ul role="list" class="divide-y divide-gray-100">
-                        <li v-for="item in activityItems" :key="item.commit" class="py-4">
-                          <div class="flex items-center gap-x-3">
-                            <h3 class="flex-auto truncate text-sm font-semibold leading-6 text-gray-900">{{ item.user.name }}</h3>
+                            <h3 class="flex-auto truncate text-sm leading-6">{{ item.user.name }}</h3>
                             <time :datetime="item.dateTime" class="flex-none text-xs text-gray-500">{{ item.date }}</time>
                           </div>
                         </li>
@@ -549,7 +421,7 @@ const userNavigation = [
     </main>
     <footer>
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left"><span class="block sm:inline">&copy; 2021 Your Company, Inc.</span> <span class="block sm:inline">All rights reserved.</span></div>
+        <div class="border-t border-gray-200 py-8 text-sm text-gray-500 flex justify-center"><span class="block sm:inline">&copy; 2023 Prime Insurance, Inc.</span> <span class="block sm:inline">All rights reserved.</span></div>
       </div>
     </footer>
   </div>

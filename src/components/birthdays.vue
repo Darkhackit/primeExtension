@@ -32,9 +32,9 @@
     const data = ref();
 
     const fetchData = async () =>{
-        // const req = await fetch('http://10.0.0.214:40/api/employee/get_this_month_employees_b');
-        // const res = await req.json()
-        // return res;
+        const req = await fetch('http://10.0.0.11:40/api/employee/get_this_month_employees_b');
+        const res = await req.json()
+        return res;
     }
 
     onBeforeMount( async()=>{data.value = await fetchData()})

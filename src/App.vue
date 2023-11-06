@@ -32,7 +32,7 @@ setInterval(() => {
 
 const news = ref([
   {
-    image:'https://res.cloudinary.com/dubea2mve/image/upload/v1699259936/prime/eihzpg8sobb39imhch7i.jpg'
+    image:'https://res.cloudinary.com/dubea2mve/image/upload/v1699259936/prime/eihzpg8sobb39imhch7i.jpg',
   },
   {
     image:'https://res.cloudinary.com/dubea2mve/image/upload/c_crop,g_auto,h_500,w_500/prime/kygfzf0zm5pcumaykotx.jpg'
@@ -253,8 +253,8 @@ const quickLinks = [
                           <Slide v-for="(slide,index) in news" :key="index">
                             <div class="max-h-full rounded-xl relative w-[100%] h-[400px]">
                               <img alt="Banner 1" :src="slide.image" class="w-full h-full object-cover object-center rounded-3xl">
-                              <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t  flex flex-col justify-end">
-                                <div class="p-10 space-y-2">
+                              <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black/75  flex flex-col justify-end ">
+                                <div class="px-10 py-5 space-y-2">
                                   <div class="flex space-x-2">
                                     <h1 class="text-white text-xl font-bold">Title</h1>
                                   </div>
@@ -319,19 +319,19 @@ const quickLinks = [
                               <span class="block h-[20px] w-[20px] rounded-full">
                                 <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">
                               </span>
-                              <span>Scott Garcia ✨ </span>
+                              <span>Vanessa B.✨ </span>
                               <span class="text-gray-600">August 19</span>
                             </div>
                             <div class="flex items-center">
                               <div class="space-y-2">
-                                <h1 class="font-bold text-xl ">10 Seconds That Ended My 20 Year Marriage</h1>
+                                <h1 class="font-bold text-xl ">Annual Staff Durbar and Destress Tour</h1>
                                 <p class="w-[90%] text-sm">
                                   It’s August in Northern Virginia, hot and humid. I still haven’t showered from my morning trail run. I’m wearing my stay-at-home mom uniform — over-sized Marine Corps sweats, tshirt, Crocs flip flops,
                                 </p>
                               </div>
                               <div class=" w-1/3">
                                 <div class="h-[150px] w-[150px]">
-                                  <img src="https://images.pexels.com/photos/6382594/pexels-photo-6382594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="banner" class="object-cover w-full h-full rounded-xl grayscale"/>
+                                  <img src="./assets/bg.jpeg" alt="banner" class="object-cover w-full h-full rounded-xl grayscale"/>
                                 </div>
                               </div>
                             </div>

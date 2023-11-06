@@ -1,34 +1,52 @@
 <script setup lang="ts">
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Popover,
-  PopoverButton,
-  PopoverOverlay,
-  PopoverPanel,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import { Carousel, Slide,Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 import { ref} from "vue";
+import {Popover} from "@headlessui/vue";
 
 const myTime = ref(new Date().toLocaleTimeString())
 const myDate = ref(new Date().toDateString())
+const greet = ref("Good Morning")
 
 const setTime = () => {
   myTime.value = new Date().toLocaleTimeString()
   myDate.value = new Date().toDateString()
+  greeting()
+}
+
+const greeting = () => {
+  let dt = new Date().getHours()
+  if (dt < 12) {
+    greet.value = "Good Morning"
+  }else if (dt < 18) {
+    greet.value = "Good Afternoon"
+  }else {
+    greet.value = "Good Evening"
+  }
 }
 
 
 setInterval(() => {
   setTime()
 },1000)
+
+const news = ref([
+  {
+    image:'https://res.cloudinary.com/dubea2mve/image/upload/v1699259936/prime/eihzpg8sobb39imhch7i.jpg'
+  },
+  {
+    image:'https://res.cloudinary.com/dubea2mve/image/upload/c_crop,g_auto,h_500,w_500/prime/kygfzf0zm5pcumaykotx.jpg'
+  },
+  {
+    image:'https://res.cloudinary.com/dubea2mve/image/upload/v1699259935/prime/t2iqfzi0teu7qsmkeepy.jpg'
+  },
+  {
+    image:'https://res.cloudinary.com/dubea2mve/image/upload/v1699259935/prime/xk0kw8eh1hv1ybgawoyd.jpg'
+  },
+  {
+    image:'https://res.cloudinary.com/dubea2mve/image/upload/v1699259935/prime/pvkptcbbhwgfgoqb0jqg.jpg'
+  },
+])
 
 const activityItems = [
   {
@@ -124,12 +142,7 @@ const comments = [
     dateTime: '2023-03-03T13:23Z',
   },
 ]
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+
 
 const navigation = [
   { name: 'Home', href: '#', current: true },
@@ -138,11 +151,7 @@ const navigation = [
   { name: 'Company Directory', href: '', current: false },
   { name: 'Employees Directory', href: 'http://localhost:5173/employees_directory', current: false },
 ]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#'},
-  { name: 'Sign out', href: '#' },
-]
+
 const quickLinks = [
     {
       name:'SibaGen',
@@ -175,19 +184,25 @@ const quickLinks = [
       favicon:'http://10.0.0.22/seeddms-6.0.12/styles/bootstrap/favicon.ico'
     },
     {
-      name:'Whatsapp Web',
+      name:'Whatsapp',
       href:'https://web.whatsapp.com/',
       favicon:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/WhatsApp_icon.png/598px-WhatsApp_icon.png'
-    }
+    },
+  {
+    name:'Ticket',
+    href:'https://ticket.primeinsuranceghana.com/',
+    favicon:'https://www.primeinsuranceghana.com/img/fav.png'
+  }
 ]
+
 </script>
 <template>
   <div class="min-h-full ">
-    <Popover as="header" class="bg-red-700 bg-cover pb-24 " v-slot="{ open }">
+    <Popover as="header" class="bg-gradient-to-br from-red-700 to-red-800 bg-cover pb-24 " v-slot="{ open }">
       <div class="p-10">
         <nav class="">
           <div class="text-white flex justify-between items-center">
-            <a href="/"><img src="./assets/logo_w.svg"/></a>
+            <a href="/"><img src="./assets/logo_w.svg" class=""/></a>
             <ul class="flex space-x-5 items-center">
               <li><p>Head Office</p></li>
               <li><span class="text-xs flex justify-center items-center bg-white rounded-full text-red-700 h-[30px] w-[30px] font-bold">MS</span></li>
@@ -197,7 +212,7 @@ const quickLinks = [
         <div class="py-14 flex justify-between">
           <div class="space-y-5">
             <div class="text-white">         
-              <h1>Good Morning, Scott Garcia</h1>
+              <h1 class="text-base font-semibold">{{greet}}, Emmanuel Arthur</h1>
             </div>
             <div>
               <h1 class="text-5xl text-white">Welcome to Prime <br> <span class="font-bold">Intranet.</span></h1>
@@ -206,10 +221,10 @@ const quickLinks = [
           <div class="w-1/2 space-y-5">
             <p class="text-sm text-white">Quick Links</p>
             <div class="grid grid-cols-4 gap-5">
-                <button v-for="(item,index) in quickLinks" :key="index" class="border rounded-xl hover:bg-red-500 border-red-500 uppercase p-4 flex items-center  space-x-2 text-left">
+                <a target="_blank" :href="item.href" v-for="(item,index) in quickLinks" @click="gotoLink(item.href)" :key="index" class="border rounded-xl hover:bg-red-500 border-red-500 uppercase p-4 flex items-center  space-x-2 text-left">
                         <span class="h-[30px] bg-red-500 p-1 rounded-full"><img :src="item.favicon" class="h-full"/></span>
-                        <p class="text-white font-bold">{{ item.name }}</p>
-                </button>
+                        <p class="text-white text-sm font-bold">{{ item.name }}</p>
+                </a>
             </div>
           </div>
         </div>
@@ -225,7 +240,7 @@ const quickLinks = [
             <section aria-labelledby="section-1-title">
               <h2 class="sr-only" id="section-1-title">Section title</h2>
               <div class="overflow-hidden rounded-lg bg-white">
-                <div class="p-6 min-h-screen">
+                <div class="p-4 min-h-screen">
                   <div>
                     <nav class="flex space-x-4 pb-5">
                       <a v-for="item in navigation" :key="item.name" :href="item.href" target="_blank" :class="[item.current ? 'text-gray-900' : 'text-gray-900', 'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
@@ -235,16 +250,16 @@ const quickLinks = [
                     <div class="flex space-x-10">
                       <div class="w-2/3">
                         <Carousel :autoplay="4000" :wrap-around="true">
-                          <Slide v-for="slide in 10" :key="slide">
+                          <Slide v-for="(slide,index) in news" :key="index">
                             <div class="max-h-full rounded-xl relative w-[100%] h-[400px]">
-                              <img alt="Banner 1" src="./assets/bg.jpeg" class="w-full h-full object-cover object-center rounded-3xl">
-                              <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t from-black flex flex-col justify-end">
+                              <img alt="Banner 1" :src="slide.image" class="w-full h-full object-cover object-center rounded-3xl">
+                              <div class="absolute w-full h-full top-0 left-0 rounded-xl bg-gradient-to-t  flex flex-col justify-end">
                                 <div class="p-10 space-y-2">
                                   <div class="flex space-x-2">
                                     <h1 class="text-white text-xl font-bold">Title</h1>
                                   </div>
                                   <div class="flex space-x-2">
-                                    <p class="text-white ">The world revolves around us. We are chosen to be more... {{slide}}</p>
+                                    <p class="text-white ">The world revolves around us. We are chosen to be more...</p>
                                   </div>
                                   <div class="flex space-x-2">
                                     <p class="text-xs text-gray-400">{{ new Date().toDateString()}},</p>
@@ -299,7 +314,7 @@ const quickLinks = [
                     </div>
                     <div class="flex">
                       <ul class="w-[60%] divide divide-y divide-gray-150">
-                          <li v-for="blog in 5" :key="blog" class="space-y-3 py-10">
+                          <li v-for="blog in 3" :key="blog" class="space-y-3 py-10">
                             <div class=" space-x-3 text-sm flex items-center">
                               <span class="block h-[20px] w-[20px] rounded-full">
                                 <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">

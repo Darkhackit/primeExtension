@@ -354,7 +354,7 @@ const userNavigation = [
                 <div class="p-6 min-h-screen">
                   <div class="flex justify-between">
                     <h1 class="text-lg font-semibold">Notices</h1>
-                    <p>view all</p>
+                    <p class="cursor-pointer" >view all</p>
                   </div>
                   <hr>
                   <div class="mb-4">

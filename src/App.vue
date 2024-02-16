@@ -2,7 +2,8 @@
 import { Carousel, Slide,Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 import {onMounted, ref} from "vue";
-import {Popover} from "@headlessui/vue";
+import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import {Popover,Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from "@headlessui/vue";
 
 const myTime = ref(new Date().toLocaleTimeString())
 const myDate = ref(new Date().toDateString())
@@ -24,8 +25,7 @@ const greeting = () => {
     greet.value = "Good Evening"
   }
 }
-
-
+const open = ref(true)
 setInterval(() => {
   setTime()
 },1000)
@@ -109,6 +109,7 @@ const navigation = [
   { name: 'Knowledge Base', href: 'http://localhost:5173/knowledge_base', current: false },
   { name: 'Company Directory', href: '', current: false },
   { name: 'Employees Directory', href: 'http://localhost:5173/employees_directory', current: false },
+  { name: 'Past Employees Directory', href: 'http://localhost:5173/past_employees_directory', current: false },
 ]
 
 const quickLinks = ref([])
@@ -197,19 +198,19 @@ onMounted(async () => {
 </script>
 <template>
   <div class="min-h-full ">
-    <Popover as="header" class="bg-gradient-to-br from-red-700 to-red-800 bg-cover pb-24 " v-slot="{ open }">
+    <Popover as="header" class="bg-[url('./assets/prime.png')] bg-cover pb-24 " v-slot="{ open }">
       <div class="p-10">
         <nav class="">
           <div class="text-white flex justify-between items-center">
             <a href="/"><img src="./assets/logo_w.svg" class=""/></a>
             <ul class="flex space-x-5 items-center">
               <li><p>{{branch}}</p></li>
-              <li><span class="text-xs flex justify-center items-center bg-white rounded-full text-red-700 h-[30px] w-[30px] font-bold">MS</span></li>
+              <li><span class="text-xs flex justify-center items-center bg-white rounded-full text-red-700 h-[30px] w-[30px] font-bold">HO</span></li>
             </ul>
           </div>
         </nav>
         <div class="py-14 flex justify-between">
-          <div class="space-y-5">
+          <div class="space-y-5 p-2 rounded-xl backdrop-blur-sm bg-white/30">
             <div class="text-white">         
               <h1 class="text-base font-semibold">{{greet}}, {{name}}</h1>
             </div>
@@ -217,10 +218,10 @@ onMounted(async () => {
               <h1 class="text-5xl text-white">Welcome to Prime <br> <span class="font-bold">Intranet.</span></h1>
             </div>
           </div>
-          <div class="w-1/2 space-y-5">
+          <div class="w-1/2 space-y-5 p-2 rounded-xl backdrop-blur-sm bg-white/30">
             <p class="text-sm text-white">Quick Links</p>
             <div class="grid grid-cols-4 gap-5">
-                <a target="_blank" :href="item.description" v-for="(item,index) in quickLinks" @click="gotoLink(item.description)" :key="index" class="border rounded-xl hover:bg-red-500 border-red-500 uppercase p-4 flex items-center  space-x-2 text-left">
+                <a target="_blank" :href="item.description" v-for="(item,index) in quickLinks" @click="gotoLink(item.description)" :key="index" class="border rounded-xl hover:bg-red-500 border-white uppercase p-4 flex items-center  space-x-2 text-left">
                         <span class="h-[30px] bg-red-500 p-1 rounded-full"><img :src="item.favicon" class="h-full"/></span>
                         <p class="text-white text-sm font-bold">{{ item.name }}</p>
                 </a>
@@ -426,5 +427,42 @@ onMounted(async () => {
         <div class="border-t border-gray-200 py-8 text-sm text-gray-500 flex justify-center"><span class="block sm:inline">&copy; 2023 Prime Insurance, Inc.</span> <span class="block sm:inline">All rights reserved.</span></div>
       </div>
     </footer>
+
+    <TransitionRoot as="template" :show="open">
+      <Dialog as="div" class="relative z-10" @close="open = true">
+        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+              <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                  <button type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="open = true">
+                    <span class="sr-only">Close</span>
+                    <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
+                <div class="sm:flex sm:items-start">
+                  <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+                  </div>
+                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Disclaimer</DialogTitle>
+                    <div class="mt-2">
+                      <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                  <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="open = false">Accept</button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>

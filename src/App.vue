@@ -8,6 +8,7 @@ import {Popover,Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoo
 const myTime = ref(new Date().toLocaleTimeString())
 const myDate = ref(new Date().toDateString())
 const greet = ref("Good Morning")
+const leaves = ref([])
 
 const setTime = () => {
   myTime.value = new Date().toLocaleTimeString()
@@ -25,75 +26,27 @@ const greeting = () => {
     greet.value = "Good Evening"
   }
 }
-const open = ref(true)
+const get_leave = async () => {
+  try {
+    let response = await fetch('http://10.0.0.11:3100/api/leave',{
+      method: 'GET',
+      headers: {
+        "Accept" : "application/json"
+      }
+    })
+    leaves.value = await response.json()
+  }catch (e) {
+    console.log(e)
+  }
+}
+
+const open = ref(false)
 setInterval(() => {
   setTime()
 },1000)
 
 const news = ref([])
 
-const activityItems = [
-  {
-    user: {
-      name: 'Michael Foster',
-      imageUrl:
-          'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    projectName: 'ios-app',
-    commit: '2d89f0c8',
-    branch: 'main',
-    date: '1h',
-    dateTime: '2023-01-23T11:00',
-  },
-  {
-    user: {
-      name: 'Lindsay Walton',
-      imageUrl:
-          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    projectName: 'mobile-api',
-    commit: '249df660',
-    branch: 'main',
-    date: '3h',
-    dateTime: '2023-01-23T09:00',
-  },
-  {
-    user: {
-      name: 'Courtney Henry',
-      imageUrl:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    projectName: 'ios-app',
-    commit: '11464223',
-    branch: 'main',
-    date: '12h',
-    dateTime: '2023-01-23T00:00',
-  },
-  {
-    user: {
-      name: 'Courtney Henry',
-      imageUrl:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    projectName: 'tailwindui.com',
-    commit: 'dad28e95',
-    branch: 'main',
-    date: '2d',
-    dateTime: '2023-01-21T13:00',
-  },
-  {
-    user: {
-      name: 'Michael Foster',
-      imageUrl:
-          'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    projectName: 'relay-service',
-    commit: '624bc94c',
-    branch: 'main',
-    date: '5d',
-    dateTime: '2023-01-18T12:34',
-  },
-]
 const comments = ref([])
 const notices = ref([])
 const todayBirthdays = ref([])
@@ -101,15 +54,16 @@ const name = ref("")
 const email = ref("")
 const id = ref("")
 const branch = ref("")
+const background = ref("")
 
 const blogs = ref([])
 const navigation = [
   { name: 'Home', href: '#', current: true },
-  { name: 'Notice Board', href: 'http://localhost:5173/notice_board', current: false },
-  { name: 'Knowledge Base', href: 'http://localhost:5173/knowledge_base', current: false },
-  { name: 'Company Directory', href: '', current: false },
-  { name: 'Employees Directory', href: 'http://localhost:5173/employees_directory', current: false },
-  { name: 'Past Employees Directory', href: 'http://localhost:5173/past_employees_directory', current: false },
+  { name: 'Notice Board', href: 'http://10.0.0.11/notice_board', current: false },
+  { name: 'Knowledge Base', href: 'http://10.0.0.11/knowledge_base', current: false },
+  { name: 'Personality Profile', href: 'http://10.0.0.11/personality', current: false },
+  { name: 'Employees Directory', href: 'http://10.0.0.11/employees_directory', current: false },
+  { name: 'Past Employees Directory', href: 'http://10.0.0.11/past_employees_directory', current: false },
 ]
 
 const quickLinks = ref([])
@@ -136,9 +90,9 @@ const getPost = async () => {
       }
     })
    let result = await response.json()
-    news.value = result.slice(0,5)
-    blogs.value = result.slice(5,8)
-    comments.value = result.slice(8,15)
+    news.value = result.slice(0,50)
+    blogs.value = result.slice(51,60)
+    comments.value = result.slice(60,70)
 
     console.log(blogs.value)
     console.log(news.value)
@@ -176,11 +130,17 @@ const getNotices = async () => {
   }
 }
 
+
+const accept = () => {
+  localStorage.setItem('agreed',true)
+  open.value = false
+}
+
 const userInfo = () => {
-  localStorage.setItem("name","Emmanuel Arthur")
-  localStorage.setItem("email","earthur@primeinsuranceghana.com")
+  localStorage.setItem("name","JOEL LARTEY")
+  localStorage.setItem("email","jalartey@primeinsuranceghana.com")
   localStorage.setItem("branch","Head Office")
-  localStorage.setItem("id",String(1100))
+  localStorage.setItem("id",String(17110))
 
   name.value = localStorage.getItem("name")
   email.value = localStorage.getItem("email")
@@ -188,18 +148,36 @@ const userInfo = () => {
   branch.value = localStorage.getItem("branch")
 }
 
+const get_background = async () => {
+  try {
+    let response = await fetch('http://10.0.0.11:3100/api/get_current_background')
+    background.value = await response.json()
+  }catch (e) {
+
+  }
+}
+
+
+
 onMounted(async () => {
+
+  open.value = !JSON.parse(localStorage.getItem('agreed'));
   userInfo()
+  await get_background()
   await getLinks()
   await getTodayBirthDay()
   await getPost()
   await getNotices()
+  await get_leave()
 })
 </script>
 <template>
   <div class="min-h-full ">
-    <Popover as="header" class="bg-[url('./assets/prime.png')] bg-cover pb-24 " v-slot="{ open }">
-      <div class="p-10">
+    <Popover as="header" class="relative" v-slot="{ open }">
+      <div class="absolute w-full h-full">
+        <img :src="background.image" alt="bg-img" class="w-full h-full object-cover"/>
+      </div>
+      <div class="p-10 relative">
         <nav class="">
           <div class="text-white flex justify-between items-center">
             <a href="/"><img src="./assets/logo_w.svg" class=""/></a>
@@ -209,7 +187,7 @@ onMounted(async () => {
             </ul>
           </div>
         </nav>
-        <div class="py-14 flex justify-between">
+        <div class="py-20 mb-20 flex justify-between">
           <div class="space-y-5 p-2 rounded-xl backdrop-blur-sm bg-white/30">
             <div class="text-white">         
               <h1 class="text-base font-semibold">{{greet}}, {{name}}</h1>
@@ -283,7 +261,7 @@ onMounted(async () => {
                           <div class="flex space-x-2">
                             <span v-if="todayBirthdays.length" v-for="birthday in todayBirthdays" class="h-[100px] w-[100px] rounded-full block border">
                               <span class="block bg-white h-full w-full rounded-full">
-                                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" :alt="birthday.name" class="w-full h-full object-cover rounded-full">
+                                <img :src="birthday.image" :alt="birthday.name" class="w-full h-full object-cover rounded-full">
                               </span>
                             </span>
                             <span class="text-base font-bold"  v-else>
@@ -369,7 +347,7 @@ onMounted(async () => {
                 <div class="p-6 min-h-screen">
                   <div class="flex justify-between space-y-0">
                     <h1 class="font-semibold text-sm">Notices</h1>
-                    <a href="/" class="text-sm">View all</a>
+                    <a target="_blank" href="http://localhost:5173/notice_board" class="text-sm">View all</a>
                   </div>
                   <div class="mt-5">
                     <ul role="list" class="space-y-5">
@@ -393,7 +371,7 @@ onMounted(async () => {
                           <p class="mt-2 line-clamp-2 text-sm leading-6 text-gray-600">{{ comment.description }}</p>
                         </div>
                       </li>
-                      <li><button class="block w-full text-sm text-gray-500"> Load More</button></li>
+                      <li><a target="_blank" href="http://localhost:5173/notice_board"  class="block w-full text-center text-sm text-gray-500"> Load More</a></li>
                     </ul>
                   </div>
 
@@ -402,14 +380,18 @@ onMounted(async () => {
                       <h1 class="font-semibold text-sm">Employees On Leave</h1>
                     </div>
                     <div>
-                      <ul role="list" class="grid grid-cols-3 gap-5">
-                        <li v-for="item in activityItems" :key="item.commit" class="px-4 py-4 border rounded-xl space-y-4 hover:bg-red-50 cursor-pointer">
-                          <span class="block h-[50px] w-[50px] rounded-full">
-                                    <img src="https://images.pexels.com/photos/5021754/pexels-photo-5021754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="profile" class="w-full h-full object-cover rounded-full">
-                          </span>
-                          <div class="flex items-center gap-x-3">
-                            <h3 class="flex-auto truncate text-sm leading-6">{{ item.user.name }}</h3>
-                            <time :datetime="item.dateTime" class="flex-none text-xs text-gray-500">{{ item.date }}</time>
+                      <ul role="list" class="grid grid-cols-2 gap-5">
+                        <li v-for="item in leaves.data" :key="item.id" class="px-4 py-4 border rounded-xl space-y-4 hover:bg-red-50 cursor-pointer">
+                          <div class="flex items-center ">
+                            <h3 class="flex-auto  text-sm leading-6">{{ item.FullName }}</h3>
+                          </div>
+                          <div class="flex justify-between">
+                            <h3 class="flex-auto  text-sm leading-6">Dur:</h3>
+                            <h3 class="flex-auto  text-sm leading-6">{{ item.Duration }}</h3>
+                          </div>
+                          <div class="flex justify-between ">
+                            <h3 class="flex-auto  text-sm leading-6">Return:</h3>
+                            <h3 class="flex-auto  text-sm leading-6">{{ item.ResumptionDate }}</h3>
                           </div>
                         </li>
                       </ul>
@@ -449,14 +431,17 @@ onMounted(async () => {
                     <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Disclaimer</DialogTitle>
+                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">** Disclaimer **</DialogTitle>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone.</p>
+                      <p class="text-sm text-gray-500">
+                        Welcome to prime intranet! This intranet serves as a blog and includes features such as displaying your picture on the page on your birthday and as a noticeboard.
+                        Please note that the images displayed on this page are for recreational purposes only. By clicking on accept, you agree that the images shown are meant for entertainment and company culture enhancement purposes. If you have any concerns or objections regarding the use of your image, please contact us immediately. Thank you for your understanding and cooperation.
+                      </p>
                     </div>
                   </div>
                 </div>
                 <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="open = false">Accept</button>
+                  <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="accept">Accept</button>
                 </div>
               </DialogPanel>
             </TransitionChild>
